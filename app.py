@@ -7,5 +7,7 @@ def exp_funct(liczba, potega):
     return pom2
 
 
-x = exp_funct(5, 5)
-print(x)
+X = exp_funct(5, 5)
+print(X)
+x = []
+print(type(x))
