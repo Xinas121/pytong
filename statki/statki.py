@@ -130,7 +130,7 @@ def warship_player_shot():
         map_destro_npc[x-1][y-1] = "x"
         for num in range(dimension):
             cnt = map_destro_npc[num].count(0)
-            licznik = licznik+cnt
+            licznik += cnt
         if licznik == 0:
             print('statek zniszczony')
         return map_npc
@@ -147,8 +147,8 @@ def warship_player_shot():
 
 def warship_npc_shot():
     npc_shot_count = 0
-    x = random.randint(0, dimension)
-    y = random.randint(0, dimension)
+    x = random.randint(0, dimension-1)
+    y = random.randint(0, dimension-1)
     pos = random.randint(0, 4)
     if map_player[x][y] == "o":
         map_player[x][y] == "x"
@@ -166,8 +166,10 @@ def warship_npc_shot():
 
 def npc_ship_place_2():  # ustawianie statków
     npc_ship_counter = 0
-    x = random.randint(1, dimension+1)
-    y = random.randint(1, dimension+1)
+    x = random.randint(1, dimension)
+    y = random.randint(1, dimension)
+    print(x)
+    print(y)
     pos = random.randint(0, 4)
     match pos:
         case 0:
@@ -226,6 +228,7 @@ def npc_ship_place_2():  # ustawianie statków
                 return npc_ship_counter
 
 
+pom = 0
 map_player, map_warship_destroy_check, map_destro_npc, map_npc, dimension = generate_map()
 
 ship_amount = place_warship_2()
@@ -235,10 +238,27 @@ for num in range(dimension):
 
 # for num in range(dimension):
 #     print("destro czek", map_warship_destroy_check[num])
-
-for num in range(0, 2):
+while pom == 0:
+    cnt = 0
+    cnt2 = 0
+    npc_ship_hp = 0
+    licznik = 0
     warship_player_shot()
-    warship_npc_shot()
+    for num in range(dimension):
+        print(map_player[num])
+    print(" ")
+    for num in range(dimension):
+        print(map_npc[num])
+    for num in range(dimension):
+        cnt = map_player[num].count("o")
+        npc_ship_hp = npc_ship_hp+cnt
+        cnt2 = map_npc[num].count("o")
+        licznik = licznik+cnt2
+    if npc_ship_hp == 0:
+        print("przegrales")
+        pom = 1
+    elif licznik == 0:
+        print("wygrales")
+        pom = 1
 
-for num in range(dimension):
-    print(map_player[num])
+    warship_npc_shot()
