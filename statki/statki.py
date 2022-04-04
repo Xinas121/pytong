@@ -145,13 +145,32 @@ def warship_player_shot():
     # pos = random.randint(0, 4)
 
 
-def npc_ship_place_2():  # ustawianie statków
-    npc_ship_counter = 0
+def warship_npc_shot():
+    npc_shot_count = 0
     x = random.randint(0, dimension)
     y = random.randint(0, dimension)
     pos = random.randint(0, 4)
+    if map_player[x][y] == "o":
+        map_player[x][y] == "x"
+        map_warship_destroy_check[x][y] == "x"
+        for num in range(dimension):
+            cnt = map_warship_destroy_check[num].count(0)
+            npc_shot_count += cnt
+        if npc_shot_count == 0:
+            print("twoj statek został zniszczony")
+        return map_player
+    else:
+        map_player[x][y] = "m"
+        return map_player
+
+
+def npc_ship_place_2():  # ustawianie statków
+    npc_ship_counter = 0
+    x = random.randint(1, dimension+1)
+    y = random.randint(1, dimension+1)
+    pos = random.randint(0, 4)
     match pos:
-        case 1:
+        case 0:
             if x == dimension and not (x == dimension and y == 1) and not (x == dimension and y == dimension):
                 npc_ship_place_2()
             elif x == dimension and (x == dimension and y == 1) and not (x == dimension and y == dimension):
@@ -165,7 +184,7 @@ def npc_ship_place_2():  # ustawianie statków
                 map_npc[x-1][y] = "o"
                 npc_ship_counter += 1
                 return npc_ship_counter
-        case 2:
+        case 1:
             if y == dimension and not (y == dimension and x == 1) and (y == dimension and x == dimension):
                 npc_ship_place_2()
             elif y == dimension and not (y == dimension and x == 1) and not (y == dimension and x == dimension):
@@ -179,7 +198,7 @@ def npc_ship_place_2():  # ustawianie statków
                 map_npc[x][y-1] = "o"
                 return npc_ship_counter
 
-        case 3:
+        case 2:
             if x == 1 and not (x == 1 and y == dimension) and not (x == 1 and y == 1):
                 npc_ship_place_2()
             elif x == 1 and (x == 1 and y == dimension) and not (x == 1 and y == 1):
@@ -192,7 +211,7 @@ def npc_ship_place_2():  # ustawianie statków
                 map_npc[x-1][y-1] = "o"
                 map_npc[x-1][y-2] = "o"
                 return npc_ship_counter
-        case 4:
+        case 3:
             if x == 1 and not(x == 1 and y == dimension) and not (x == 1 and y == 1):
                 npc_ship_place_2()
             elif x == 1 and y == 1:
@@ -219,6 +238,7 @@ for num in range(dimension):
 
 for num in range(0, 2):
     warship_player_shot()
+    warship_npc_shot()
 
 for num in range(dimension):
     print(map_player[num])
