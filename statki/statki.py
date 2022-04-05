@@ -19,10 +19,9 @@ def generate_map():  # generacja mapy do gry
             return wymiar_tab, map_destro, map_destro2, map_2, wymiar
 
 
-def place_warship_2():  # ustawianie statków
+def place_warship_2(ship_count):  # ustawianie statków
     for num in range(dimension):
         print(map_player[num])
-    ship_count = 0
     print("Gdzie chcesz ustawic statek pozycje x i y")
     x = int(input())
     y = int(input())
@@ -116,6 +115,35 @@ def place_warship_2():  # ustawianie statków
                 map_player[x-1][y-1] = "o"
                 map_player[x-2][y-1] = "o"
                 ship_count += 1
+                return ship_count
+
+
+def place_warship_3(ship_count):
+
+    for num in range(dimension):
+        print(map_player[num])
+    print("Input x and y position")
+    x = int(input())
+    y = int(input())
+    print("Input direction prawo/lewo/gora/dol")
+    position = input()
+    match position:
+        case gora:
+            if x == 1 and y == 1:
+                print("lewy gorny rog, nie mozna gora i lewo")
+                place_warship_3()
+            elif x == 1 and y == dimension:
+                print("prawy gorny rog, nie mozna gora i prawo")
+                place_warship_3()
+            elif x == 1 or x == 2:
+                print("gorna granica mapy")
+                place_warship_3()
+            elif map_player[x-1][y-1] == "o" or map_player[x-2][y-1] == "o" or map_player[x-3][y-1] == "o":
+                print("statek jest juz w tym miejscu")
+            else:
+                map_player[x-1][y-1] = "o"
+                ship_count += 1
+                print(ship_count)
                 return ship_count
 
 
@@ -228,10 +256,11 @@ def npc_ship_place_2():  # ustawianie statków
                 return npc_ship_counter
 
 
+ship_count = 0
 pom = 0
 map_player, map_warship_destroy_check, map_destro_npc, map_npc, dimension = generate_map()
-
-ship_amount = place_warship_2()
+ship_count = place_warship_2(ship_count)
+ship_count = place_warship_3(ship_count)
 npc_ship_amount = npc_ship_place_2()
 for num in range(dimension):
     print(map_npc[num])
